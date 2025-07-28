@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copper Lamp投影模组文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6F00;
+            --primary-light: #FF8F00;
+            --primary-dark: #E65100;
+            --light: #FFFFFF;
+            --dark: #121212;
+            --light-bg: #F8F9FA;
+            --dark-bg: #1E1E1E;
+            --card-light: #FFFFFF;
+            --card-dark: #2D2D2D;
+            --text-light: #FFFFFF;
+            --text-dark: #333333;
+            --text-gray: #757575;
+            --border-light: #E0E0E0;
+            --border-dark: #444444;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            transition: var(--transition);
+        }
+        
+        body.dark-theme {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+        }
+        
+        /* 顶部导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--light);
+            box-shadow: var(--shadow);
+            padding: 15px 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .dark-theme .navbar {
+            background: var(--dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .dark-theme .logo-text {
+            color: var(--primary-light);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .dark-theme .nav-link {
+            color: var(--text-light);
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .dark-theme .theme-toggle {
+            background: var(--dark);
+        }
+        
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            max-width: 1200px;
+            margin: 100px auto 100px;
+            padding: 0 20px;
+        }
+        
+        /* 页面部分 */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* 首页 */
+        .hero-section {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            padding: 20px 40px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin-bottom: 40px;
+            color: var(--text-gray);
+        }
+        
+        .dark-theme .hero-subtitle {
+            color: var(--text-light);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 15px 40px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 111, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .dark-theme .btn-secondary {
+            color: var(--primary-light);
+            border: 2px solid var(--primary-light);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 111, 0, 0.1);
+        }
+        
+        /* 内容卡片 */
+        .section {
+            background-color: var(--card-light);
+            border-radius: 8px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .dark-theme .section {
+            background-color: var(--card-dark);
+        }
+        
+        .section-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-light);
+        }
+        
+        .dark-theme .section-header {
+            border-bottom: 2px solid var(--border-dark);
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .dark-theme .section-title {
+            color: var(--primary-light);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+        }
+        
+        .dark-theme .section-subtitle {
+            color: var(--text-light);
+        }
+        
+        /* 功能网格 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background-color: var(--card-light);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .dark-theme .feature-card {
+            background-color: var(--card-dark);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+        
+        .dark-theme .feature-title {
+            color: var(--text-light);
+        }
+        
+        /* 安装步骤 */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .step-card {
+            background-color: var(--card-light);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            position: relative;
+            border-top: 4px solid var(--primary);
+        }
+        
+        .dark-theme .step-card {
+            background-color: var(--card-dark);
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* 命令网格 */
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .command-card {
+            background-color: var(--card-light);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .dark-theme .command-card {
+            background-color: var(--card-dark);
+        }
+        
+        .command-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .command-name {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .dark-theme .command-name {
+            color: var(--primary-light);
+        }
+        
+        /* 代码块 */
+        .code-block {
+            background-color: #2a2a2a;
+            color: #f0f0f0;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 15px;
+        }
+        
+        /* 常见问题 */
+        .faq-grid {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .faq-item {
+            background-color: var(--card-light);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 3px solid var(--primary);
+        }
+        
+        .dark-theme .faq-item {
+            background-color: var(--card-dark);
+        }
+        
+        .faq-question {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dark-theme .faq-question {
+            color: var(--primary-light);
+        }
+        
+        .faq-question i {
+            margin-right: 10px;
+        }
+        
+        /* 下一页按钮 */
+        .next-page {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 30px;
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+        }
+        
+        .next-page:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 111, 0, 0.3);
+        }
+        
+        .page-footer {
+            text-align: right;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .dark-theme .page-footer {
+            border-top: 1px solid var(--border-dark);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 20px;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                order: 3;
+                width: 100%;
+                margin-top: 15px;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .nav-link {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+                padding: 15px 25px;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-project-diagram"></i>
+            </div>
+            <div class="logo-text">Copper Lamp</div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="#" class="nav-link active" data-page="home">首页</a>
+            <a href="#" class="nav-link" data-page="installation">安装指南</a>
+            <a href="#" class="nav-link" data-page="usage">使用教程</a>
+            <a href="#" class="nav-link" data-page="commands">命令列表</a>
+            <a href="#" class="nav-link" data-page="faq">常见问题</a>
+        </div>
+        
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </nav>
+    
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- 首页 -->
+        <section id="home" class="page active">
+            <div class="hero-section">
+                <h1 class="hero-title">Copper Lamp投影模组</h1>
+                
+                <p class="hero-subtitle">
+                    专为Minecraft基岩版设计的终极建筑辅助工具<br>
+                    精确投影、轻松放置、团队协作 - 打造梦想中的世界从未如此简单
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="https://github.com/copper-lamp/copper-lamp" class="btn btn-primary" target="_blank">
+                        <i class="fab fa-github"></i> GitHub下载
+                    </a>
+                    <a href="#" class="btn btn-secondary" data-page="installation">
+                        <i class="fas fa-book"></i> 开始使用
+                    </a>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2 class="section-title">核心功能</h2>
+                <p class="section-subtitle">简化复杂建筑的建造过程</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="feature-title">精确投影</h3>
+                        <p>加载结构文件并以半透明投影显示，包含方块朝向、状态和红石设置，实现像素级重建。</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 class="feature-title">轻松放置</h3>
+                        <p>自动匹配背包中的正确方块，一键放置并自动减少数量，大幅提升建造效率。</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">团队协作</h3>
+                        <p>共享投影功能允许多名玩家同时查看相同的结构，实现无缝团队协作。</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3 class="feature-title">材料清单</h3>
+                        <p>自动计算并显示建造所需的所有材料，帮助您准备充足的资源。</p>
+                    </div>
+                </div>
+                
+                <div class="page-footer">
+                    <a href="#" class="next-page" data-page="installation">
+                        安装指南 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 安装指南 -->
+        <section id="installation" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">安装指南</h2>
+                    <p class="section-subtitle">快速开始使用Copper Lamp投影模组</p>
+                </div>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>安装前置</h3>
+                        <p>确保已安装LeviLamina框架：</p>
+                        <div class="code-block"># 下载LeviLamina
+git clone https://github.com/LiteLDev/LeviLamina.git
+cd LeviLamina
+xmake f -m release
+xmake -j8</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>下载模组</h3>
+                        <p>从GitHub获取最新版Copper Lamp：</p>
+                        <a href="https://github.com/copper-lamp/copper-lamp" class="btn btn-primary" style="margin-top: 15px; text-align: center;">
+                            <i class="fab fa-github"></i> 访问GitHub下载
+                        </a>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>安装模组</h3>
+                        <p>将模组放入服务器插件目录：</p>
+                        <div class="code-block"># 创建插件目录
+mkdir plugins/CopperLamp
+
+# 复制模组文件
+cp CopperLamp.dll plugins/CopperLamp/
+cp -r resources/ plugins/CopperLamp/</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>配置文件夹</h3>
+                        <p>创建必要的资源文件夹：</p>
+                        <div class="code-block"># 个人投影文件夹
+mkdir plugins/CopperLamp/resources/structures
+
+# 共享投影文件夹
+mkdir plugins/CopperLamp/resources/shared_structures</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <h3>启动服务器</h3>
+                        <p>启动Minecraft服务器，模组将自动加载：</p>
+                        <div class="code-block"># 启动BDS服务器
+./bedrock_server
+
+# 检查日志
+[INFO] CopperLamp 已成功加载</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <h3>添加投影文件</h3>
+                        <p>将结构文件放入对应文件夹：</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>个人投影：<span class="code-block" style="display: inline;">plugins/CopperLamp/resources/structures/</span></li>
+                            <li>共享投影：<span class="code-block" style="display: inline;">plugins/CopperLamp/resources/shared_structures/</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-footer">
+                    <a href="#" class="next-page" data-page="usage">
+                        使用教程 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 使用教程 -->
+        <section id="usage" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">使用教程</h2>
+                    <p class="section-subtitle">掌握Copper Lamp的核心功能</p>
+                </div>
+                
+                <h3 style="color: var(--primary); margin: 30px 0 20px;">基本工作流程</h3>
+                
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3>加载投影</h3>
+                        <p>使用命令加载投影文件：</p>
+                        <div class="code-block">/projection load 红石大门
+/projection load 自动农场 true  # 加载为共享投影</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3>设置投影中心</h3>
+                        <p>手持木棍，蹲下并右键点击一个方块：</p>
+                        <div class="code-block">[系统] 投影中心已设置为: (123, 64, 456)</div>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3>开始建造</h3>
+                        <p>投影显示需要放置的方块位置：</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>正确放置：投影消失</li>
+                            <li>错误放置：显示提示框</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h3>使用轻松放置</h3>
+                        <p>在投影位置放置方块时：</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>自动选择正确方块</li>
+                            <li>减少背包数量</li>
+                            <li>返还原始方块</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3 style="color: var(--primary); margin: 40px 0 20px;">高级功能</h3>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">分层建造</h3>
+                        <p>使用方向键切换投影层：</p>
+                        <div class="code-block">↑ 键：上一层
+↓ 键：下一层
+/projection layer 5  # 跳转到第5层</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">团队协作</h3>
+                        <p>多人共享同一投影：</p>
+                        <div class="code-block"># 保存为共享投影
+/sharedprojection save 团队建筑
+
+# 加载共享投影
+/projection load 团队建筑 true</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">材料清单</h3>
+                        <p>查看建造所需材料：</p>
+                        <div class="code-block">/projection materials 红石计算机
+
+石头 x 128
+橡木木板 x 64
+红石粉 x 32
+红石中继器 x 12
+粘性活塞 x 8</div>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h3 class="feature-title">错误修正</h3>
+                        <p>当显示错误提示时：</p>
+                        <ul style="margin-top: 10px; padding-left: 20px;">
+                            <li>破坏错误方块</li>
+                            <li>投影会自动恢复显示</li>
+                            <li>重新放置正确方块</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="page-footer">
+                    <a href="#" class="next-page" data-page="commands">
+                        命令列表 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 命令列表 -->
+        <section id="commands" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">命令列表</h2>
+                    <p class="section-subtitle">所有可用命令及说明</p>
+                </div>
+                
+                <div class="commands-grid">
+                    <div class="command-card">
+                        <div class="command-name">/projection</div>
+                        <p>打开投影控制GUI</p>
+                        <div class="code-block">/projection</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/projection load</div>
+                        <p>加载投影文件</p>
+                        <div class="code-block">/projection load &lt;名称&gt; [shared]
+/projection load 城堡
+/projection load 红石电路 true</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/projection unload</div>
+                        <p>卸载当前投影</p>
+                        <div class="code-block">/projection unload</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/projection layer</div>
+                        <p>设置显示层</p>
+                        <div class="code-block">/projection layer &lt;层数&gt;
+/projection layer 5</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/projection materials</div>
+                        <p>显示材料清单</p>
+                        <div class="code-block">/projection materials &lt;名称&gt;
+/projection materials 自动农场</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/easyplace</div>
+                        <p>轻松放置开关</p>
+                        <div class="code-block">/easyplace on   # 启用
+/easyplace off  # 禁用
+/easyplace      # 查看状态</div>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/sharedprojection</div>
+                        <p>共享投影管理</p>
+                        <div class="code-block">/sharedprojection save &lt;名称&gt;
+/sharedprojection remove &lt;名称&gt;
+/sharedprojection list</div>
+                        <p><em>需要管理员权限</em></p>
+                    </div>
+                    
+                    <div class="command-card">
+                        <div class="command-name">/projection help</div>
+                        <p>显示帮助信息</p>
+                        <div class="code-block">/projection help</div>
+                    </div>
+                </div>
+                
+                <div class="page-footer">
+                    <a href="#" class="next-page" data-page="faq">
+                        常见问题 <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 常见问题 -->
+        <section id="faq" class="page">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">常见问题解答</h2>
+                    <p class="section-subtitle">解决您在使用Copper Lamp时遇到的问题</p>
+                </div>
+                
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 如何创建投影文件？
+                        </div>
+                        <p>A: 在创造模式中使用结构方块保存建筑，然后将生成的.mcstructure文件放入<span class="code-block" style="display: inline;">plugins/CopperLamp/resources/structures/</span>文件夹中。模组会自动转换格式。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 为什么投影不显示？
+                        </div>
+                        <p>A: 请检查：1) 是否使用木棍设置了投影中心；2) 是否在正确的层（使用方向键切换）；3) 是否距离投影中心过远；4) 是否安装了LeviLamina前置。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 轻松放置功能无效怎么办？
+                        </div>
+                        <p>A: 首先使用 <span class="code-block" style="display: inline;">/easyplace</span> 检查是否启用。如果已启用但无效，请确认：1) 背包中有正确的方块；2) 方块方向正确；3) 投影已加载。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 如何与其他玩家共享我的建筑？
+                        </div>
+                        <p>A: 1) 保存投影：<span class="code-block" style="display: inline;">/sharedprojection save 建筑名称</span>；2) 其他玩家加载：<span class="code-block" style="display: inline;">/projection load 建筑名称 true</span>。所有玩家需要设置相同的投影中心点。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 错误提示是什么意思？
+                        </div>
+                        <p>A: 表示该位置放置了错误的方块。破坏该方块后提示会消失，投影会重新显示。重新放置正确的方块即可。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 模组会影响服务器性能吗？
+                        </div>
+                        <p>A: 大型投影可能有一定性能影响。建议：1) 只加载需要的投影；2) 远离时自动卸载；3) 使用分层显示；4) 简化复杂结构。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 是否支持跨维度投影？
+                        </div>
+                        <p>A: 当前版本仅支持主世界投影。跨维度功能正在开发中，预计v1.3版本支持。</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <i class="fas fa-question-circle"></i>
+                            Q: 如何获得更多帮助？
+                        </div>
+                        <p>A: 访问我们的GitHub仓库：<span class="code-block" style="display: inline;">https://github.com/copper-lamp/copper-lamp</span> 提交issue或加入Discord社区获取支持。</p>
+                    </div>
+                </div>
+                
+                <div class="page-footer">
+                    <a href="#" class="next-page" data-page="home">
+                        <i class="fas fa-home"></i> 返回首页
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        
+        // 从localStorage加载主题偏好
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            
+            if (document.body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // 页面导航功能
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const nextPageButtons = document.querySelectorAll('.next-page');
+        
+        function showPage(pageId) {
+            // 隐藏所有页面
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // 显示目标页面
+            document.getElementById(pageId).classList.add('active');
+            
+            // 更新导航链接状态
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // 导航链接事件
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+        
+        // 下一页按钮事件
+        nextPageButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+        
+        // 首页按钮事件
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
