@@ -1,8 +1,3 @@
----
-nav:
-  title: Components
-  path: /components
----
 
 # [LSE] CopperLamp - 轻量化高版本生电辅助插件
 
