@@ -1,8 +1,3 @@
----
-nav:
-  title: Components
-  path: /components
----
 
 ## 💬 常见问题
 
